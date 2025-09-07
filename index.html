@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Viết Content Facebook - Yến Sào Chuyên Nghiệp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #1877f2, #42a5f5);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .form-section {
+            padding: 40px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1877f2;
+            box-shadow: 0 0 10px rgba(24, 119, 242, 0.1);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .features-selection {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-checkbox:hover {
+            border-color: #1877f2;
+            box-shadow: 0 2px 5px rgba(24, 119, 242, 0.1);
+        }
+        
+        .feature-checkbox input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .feature-checkbox label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .feature-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .select-all-btn, .deselect-all-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .select-all-btn {
+            background: #28a745;
+            color: white;
+        }
+        
+        .deselect-all-btn {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #1877f2, #42a5f5);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .spin-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #1877f2;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .generated-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #1877f2;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .copy-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #42a5f5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Bot Viết Content Facebook</h1>
+            <p>Chuyên gia tạo nội dung quảng cáo yến sào chuyên nghiệp</p>
+        </div>
+        
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="adGoal">Mục tiêu quảng cáo:</label>
+                    <select id="adGoal">
+                        <option value="ban-hang-nhanh">Bán hàng nhanh</option>
+                        <option value="xay-dung-thuong-hieu">Xây dựng thương hiệu</option>
+                        <option value="gioi-thieu-san-pham-moi">Giới thiệu sản phẩm mới</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="writeStyle">Phong cách bài viết:</label>
+                    <select id="writeStyle">
+                        <option value="trang-trong">Trang trọng</option>
+                        <option value="gan-gui">Gần gũi</option>
+                        <option value="sang-tao">Sáng tạo</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="productName">Sản phẩm yến sào:</label>
+                <select id="productName">
+                    <option value="YẾN SÀO VIET SUN BIRDNEST">YẾN SÀO VIET SUN BIRDNEST</option>
+                    <option value="YẾN HŨ ĐƯỜNG PHÈN">YẾN HŨ ĐƯỜNG PHÈN</option>
+                    <option value="YẾN HŨ ĐÔNG TRÙNG HẠ THẢO">YẾN HŨ ĐÔNG TRÙNG HẠ THẢO</option>
+                    <option value="YẾN HŨ KHÔNG ĐƯỜNG">YẾN HŨ KHÔNG ĐƯỜNG</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Điểm nổi bật của sản phẩm:</label>
+                <div class="features-selection">
+                    <div class="features-grid">
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature1" value="Nguồn gốc thiên nhiên từ Việt Nam" checked>
+                            <label for="feature1">🌿 Nguồn gốc thiên nhiên từ Việt Nam</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature2" value="Nhập khẩu chính ngạch, có giấy phép của Bộ Nông nghiệp Úc" checked>
+                            <label for="feature2">📋 Nhập khẩu chính ngạch, có giấy phép của Bộ Nông nghiệp Úc</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature3" value="Giàu dinh dưỡng, tăng cường đề kháng, cải thiện giấc ngủ" checked>
+                            <label for="feature3">💪 Giàu dinh dưỡng, tăng cường đề kháng, cải thiện giấc ngủ</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature4" value="100% tự nhiên, không chất bảo quản">
+                            <label for="feature4">🌱 100% tự nhiên, không chất bảo quản</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature5" value="Chứa 18 loại axit amin thiết yếu">
+                            <label for="feature5">🧬 Chứa 18 loại axit amin thiết yếu</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature6" value="Làm đẹp da, chống lão hóa">
+                            <label for="feature6">✨ Làm đẹp da, chống lão hóa</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature7" value="Hỗ trợ hệ tiêu hóa, tăng cường miễn dịch">
+                            <label for="feature7">🛡️ Hỗ trợ hệ tiêu hóa, tăng cường miễn dịch</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature8" value="Phù hợp cho mọi lứa tuổi từ trẻ em đến người cao tuổi">
+                            <label for="feature8">👨‍👩‍👧‍👦 Phù hợp cho mọi lứa tuổi từ trẻ em đến người cao tuổi</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature9" value="Dễ tiêu hóa, hấp thụ nhanh">
+                            <label for="feature9">⚡ Dễ tiêu hóa, hấp thụ nhanh</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature10" value="Cải thiện giấc ngủ, giảm stress">
+                            <label for="feature10">😴 Cải thiện giấc ngủ, giảm stress</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature11" value="Hỗ trợ phục hồi sức khỏe sau ốm">
+                            <label for="feature11">🔄 Hỗ trợ phục hồi sức khỏe sau ốm</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature12" value="Tăng cường trí nhớ, cải thiện tập trung">
+                            <label for="feature12">🧠 Tăng cường trí nhớ, cải thiện tập trung</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature13" value="Bổ phổi, giảm ho, làm mát cơ thể">
+                            <label for="feature13">💨 Bổ phổi, giảm ho, làm mát cơ thể</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature14" value="Kiểm định chất lượng nghiêm ngặt">
+                            <label for="feature14">🔬 Kiểm định chất lượng nghiêm ngặt</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature15" value="Đóng gói tiện lợi, bảo quản dễ dàng">
+                            <label for="feature15">📦 Đóng gói tiện lợi, bảo quản dễ dàng</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature16" value="Giá cả hợp lý, chất lượng cao">
+                            <label for="feature16">💰 Giá cả hợp lý, chất lượng cao</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature17" value="Được bác sĩ khuyên dùng">
+                            <label for="feature17">👨‍⚕️ Được bác sĩ khuyên dùng</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature18" value="Sản xuất theo tiêu chuẩn GMP">
+                            <label for="feature18">🏭 Sản xuất theo tiêu chuẩn GMP</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature19" value="Giao hàng nhanh chóng trên toàn Úc">
+                            <label for="feature19">🚚 Giao hàng nhanh chóng trên toàn Úc</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature20" value="Hỗ trợ tư vấn 24/7 bằng tiếng Việt">
+                            <label for="feature20">📞 Hỗ trợ tư vấn 24/7 bằng tiếng Việt</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature21" value="Có tem chống hàng giả, tránh sản phẩm trôi nổi">
+                            <label for="feature21">🛡️ Có tem chống hàng giả, tránh sản phẩm trôi nổi</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature22" value="Cảnh báo: Tránh xa sản phẩm trôi nổi có thể gây hại sức khỏe">
+                            <label for="feature22">⚠️ Cảnh báo: Tránh xa sản phẩm trôi nổi có thể gây hại sức khỏe</label>
+                        </div>
+                        <div class="feature-checkbox">
+                            <input type="checkbox" id="feature23" value="Chỉ mua tại các đại lý chính thức để đảm bảo an toàn">
+                            <label for="feature23">✅ Chỉ mua tại các đại lý chính thức để đảm bảo an toàn</label>
+                        </div>
+                    </div>
+                    <div class="feature-controls">
+                        <button type="button" class="select-all-btn" onclick="selectAllFeatures()">✅ Chọn tất cả</button>
+                        <button type="button" class="deselect-all-btn" onclick="deselectAllFeatures()">❌ Bỏ chọn tất cả</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Đối tượng khách hàng:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="target1" value="Cộng đồng người Việt tại Úc" checked>
+                            <label for="target1">Cộng đồng người Việt tại Úc</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="target2" value="Người Úc yêu thích sản phẩm sức khỏe">
+                            <label for="target2">Người Úc yêu thích sản phẩm sức khỏe</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="target3" value="Người châu Á tại Úc">
+                            <label for="target3">Người châu Á tại Úc</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Độ tuổi:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="age1" value="Thanh niên" checked>
+                            <label for="age1">Thanh niên</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="age2" value="Trung niên" checked>
+                            <label for="age2">Trung niên</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="age3" value="Người lớn tuổi" checked>
+                            <label for="age3">Người lớn tuổi</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Giới tính:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="gender1" value="Nam" checked>
+                            <label for="gender1">Nam</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="gender2" value="Nữ" checked>
+                            <label for="gender2">Nữ</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="spin-toggle">
+                <span><strong>Chế độ Spin:</strong></span>
+                <label class="switch">
+                    <input type="checkbox" id="spinMode">
+                    <span class="slider"></span>
+                </label>
+                <span id="spinStatus">TẮT</span>
+                <span style="margin-left: 10px; color: #666; font-size: 14px;">(Bật để tạo nhiều biến thể nội dung)</span>
+            </div>
+            
+            <button class="generate-btn" onclick="generateContent()">
+                ✨ Tạo Nội Dung Quảng Cáo Yến Sào
+            </button>
+            
+            <div class="result-section" id="resultSection">
+                <div class="result-title">📝 Nội dung quảng cáo đã tạo:</div>
+                <div class="generated-content" id="generatedContent"></div>
+                <button class="copy-btn" onclick="copyContent()">📋 Sao chép nội dung</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle spin mode
+        document.getElementById('spinMode').addEventListener('change', function() {
+            const status = document.getElementById('spinStatus');
+            status.textContent = this.checked ? 'BẬT' : 'TẮT';
+        });
+
+        function selectAllFeatures() {
+            const checkboxes = document.querySelectorAll('.feature-checkbox input[type="checkbox"]');
+            checkboxes.forEach(checkbox => checkbox.checked = true);
+        }
+
+        function deselectAllFeatures() {
+            const checkboxes = document.querySelectorAll('.feature-checkbox input[type="checkbox"]');
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+        }
+
+        function getSelectedValues(name) {
+            const checkboxes = document.querySelectorAll(`input[type="checkbox"][id^="${name}"]:checked`);
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        function getSelectedFeatures() {
+            const featureCheckboxes = document.querySelectorAll('.feature-checkbox input[type="checkbox"]:checked');
+            return Array.from(featureCheckboxes).map(checkbox => checkbox.value);
+        }
+
+        function generateContent() {
+            const adGoal = document.getElementById('adGoal').value;
+            const writeStyle = document.getElementById('writeStyle').value;
+            const productName = document.getElementById('productName').value;
+            const features = getSelectedFeatures();
+            const targets = getSelectedValues('target');
+            const ages = getSelectedValues('age');
+            const genders = getSelectedValues('gender');
+            const spinMode = document.getElementById('spinMode').checked;
+
+            if (features.length === 0) {
+                alert('Vui lòng chọn ít nhất một điểm nổi bật của sản phẩm!');
+                return;
+            }
+
+            // Create base content
+            let title = generateTitle(adGoal, writeStyle, productName);
+            let mainContent = generateMainContent(writeStyle, productName, features, targets, ages, genders);
+            
+            // ALWAYS add warning - this is mandatory
+            let warningContent = `
+
+⚠️ ⚠️ ⚠️ LƯU Ý QUAN TRỌNG ⚠️ ⚠️ ⚠️
+🚫 TUYỆT ĐỐI TRÁNH XA CÁC SẢN PHẨM YẾN SÀO TRÔI NỔI!
+💀 Sản phẩm trôi nổi không rõ nguồn gốc có thể chứa:
+   • Chất độc hại, kim loại nặng
+   • Chất bảo quản vượt mức cho phép  
+   • Vi khuẩn, tạp chất nguy hiểm
+   👉 GÂY NGUY HIỂM NGHIÊM TRỌNG CHO SỨC KHỎE!
+
+✅ CHỈ MUA TẠI CÁC ĐẠI LÝ CHÍNH THỨC để đảm bảo:
+• Nguồn gốc rõ ràng, có giấy tờ đầy đủ
+• Kiểm định chất lượng nghiêm ngặt
+• Không chứa chất độc hại
+• Được Bộ Nông nghiệp Úc cấp phép`;
+            
+            let contactInfo = `
+
+🌍 Website: https://vietsunbirdnest.com.au
+
+📍 Showroom PERTH: 34 Robinson Rd, Morley WA 6062
+📞 Ms. Trâm: 0413 235 666
+📞 Ms. Mai: 0491 672 009 (Tiếng Anh/Tiếng Việt)
+📞 Ms. Singlin: 0412 888 697 (Tiếng Anh/中文)
+
+📍 Chi nhánh SYDNEY: 9C/4 Home Pride Avenue, Warwick Farm, Liverpool NSW
+📞 Mr. Tài: 0423 892 968
+
+📍 Chi nhánh MELBOURNE 1: 25 Governors Rd, Coburg 3058
+📞 Ms. Nguyệt: 0422 795 497
+
+📍 Chi nhánh MELBOURNE 2: Tầng 1, 7 Green St, Airport West, VIC 3042
+📞 Ms. Ngân: 0435 060 209
+
+👉 Đừng chần chừ, hãy liên hệ ngay với VIET SUN BIRDNEST để được tư vấn tận tình và sở hữu ngay món quà sức khỏe quý giá cho gia đình bạn!
+
+#YenSao #SucKhoe #CongDongVietUc #VietSunBirdnest #YenSaoUc`;
+
+            // Combine all parts
+            let finalContent = title + mainContent + warningContent + contactInfo;
+
+            if (spinMode) {
+                finalContent = addSpinSyntax(finalContent);
+            }
+
+            document.getElementById('generatedContent').textContent = finalContent;
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateTitle(adGoal, writeStyle, productName) {
+            if (adGoal === 'ban-hang-nhanh') {
+                if (writeStyle === 'trang-trong') {
+                    return '🌟 ' + productName + ' - Quà Tặng Sức Khỏe Quý Giá Cho Gia Đình';
+                } else if (writeStyle === 'gan-gui') {
+                    return '❤️ ' + productName + ' - Món Quà Từ Trái Tim Gửi Đến Người Thân';
+                } else {
+                    return '🔥 HOT! ' + productName + ' - Bí Mật Sức Khỏe Từ Thiên Nhiên';
+                }
+            } else if (adGoal === 'xay-dung-thuong-hieu') {
+                return '✨ ' + productName + ' - Thương Hiệu Yến Sào Uy Tín Tại Úc';
+            } else {
+                return '🎉 Ra Mắt: ' + productName + ' - Đột Phá Mới Trong Ngành Yến Sào';
+            }
+        }
+
+        function generateMainContent(writeStyle, productName, features, targets, ages, genders) {
+            const targetText = targets.join(', ');
+            const ageText = ages.join(', ');
+            const genderText = genders.join(' và ');
+
+            if (writeStyle === 'trang-trong') {
+                return `
+
+Kính gửi quý khách hàng ${targetText},
+
+VIET SUN BIRDNEST trân trọng giới thiệu đến quý khách sản phẩm ${productName} - một sự lựa chọn hoàn hảo cho sức khỏe gia đình.
+
+🌟 Điểm nổi bật vượt trội:
+${features.map(f => '✅ ' + f).join('\n')}
+
+Sản phẩm của chúng tôi đặc biệt phù hợp với ${ageText}, dành cho cả ${genderText}, mang đến những lợi ích thiết thực cho sức khỏe và sự tươi trẻ.
+
+Với cam kết chất lượng hàng đầu và dịch vụ chuyên nghiệp, VIET SUN BIRDNEST tự hào là đối tác tin cậy của hàng nghìn gia đình tại Úc.`;
+
+            } else if (writeStyle === 'gan-gui') {
+                return `
+
+Chào các bạn ${targetText} thân yêu! ❤️
+
+Xa quê hương, chúng ta luôn muốn gửi gắm những món quà ý nghĩa nhất đến gia đình. ${productName} chính là lựa chọn tuyệt vời để bày tỏ tình yêu thương của bạn!
+
+💖 Tại sao nên chọn sản phẩm của chúng mình:
+${features.map(f => '🌸 ' + f).join('\n')}
+
+Dù bạn là ${ageText}, ${genderText}, sản phẩm đều mang lại những lợi ích tuyệt vời cho sức khỏe. Mỗi ly yến sào là một lời chúc sức khỏe, một cái ôm ấm áp gửi đến người thân.
+
+Hãy để VIET SUN BIRDNEST đồng hành cùng bạn trong việc chăm sóc sức khỏe gia đình nhé! 🏠💕`;
+
+            } else { // sang-tao
+                return `
+
+🚀 Bạn có tin không? Bí mật của sức khỏe dẻo dai, làn da rạng rỡ đang nằm ngay trong tách ${productName} này đấy!
+
+🔮 Ma thuật từ thiên nhiên:
+${features.map(f => '⚡ ' + f).join('\n')}
+
+🎯 Không phân biệt bạn là ${ageText}, ${genderText} hay ${targetText} - tất cả đều xứng đáng có một cuộc sống khỏe mạnh và tràn đầy năng lượng!
+
+💡 Đây không chỉ là yến sào, mà là "siêu thực phẩm" mà thiên nhiên ban tặng. Mỗi giọt yến chứa đựng tinh hoa của núi rừng Việt Nam, được "chuyển phát nhanh" đến tận tay bạn tại Úc! 🌏✈️`;
+            }
+        }
+
+        function addSpinSyntax(content) {
+            // Add simple spin syntax to some words
+            content = content.replace(/tuyệt vời/g, '#text{tuyệt vời|đáng kinh ngạc|xuất sắc}');
+            content = content.replace(/chất lượng/g, '#text{chất lượng|tiêu chuẩn|đẳng cấp}');
+            content = content.replace(/sức khỏe/g, '#text{sức khỏe|sức khoẻ|thể chất}');
+            content = content.replace(/🌟/g, '#icon{🌟|✨|💎}');
+            content = content.replace(/❤️/g, '#icon{❤️|💖|💕}');
+            return content;
+        }
+
+        function copyContent() {
+            const content = document.getElementById('generatedContent').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                alert('Đã sao chép nội dung vào clipboard!');
+            }).catch(err => {
+                console.error('Lỗi khi sao chép: ', err);
+                alert('Có lỗi xảy ra khi sao chép!');
+            });
+        }
+    </script>
+</body>
+</html>
